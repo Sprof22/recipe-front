@@ -127,13 +127,16 @@ export default function Home() {
         <h2 className="text-2xl font-bold mb-4 text-black">Saved Recipes</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {savedRecipes.map((recipe) => (
-            <div key={recipe.ID} className="border p-4">
+            <div key={recipe.ID} className="border p-4 rounded-lg">
               {/* <h6>{recipe.ID}</h6> */}
              <h3 className="text-xl font-bold mb-2 text-black">{recipe.Title}</h3>
               <img className="mb-2" src={recipe.Image} alt={recipe.Title} />
+              <div className="mt-2 flex items-center justify-between"><Link href={`/saved/${recipe.ID}`}>
+              <button className="text-blue-500">View Details</button>
+              </Link>
               <button onClick={() => handleDeleteRecipe(recipe.ID)} className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">
                 Delete
-              </button>
+              </button></div>
             </div>
           ))}
         </div>
