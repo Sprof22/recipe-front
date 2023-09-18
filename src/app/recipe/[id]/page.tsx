@@ -29,9 +29,25 @@ const RecipeDetails = () => {
   const usedIngredientsString = searchParams.get("usedIngredients");
   const missedIngredients = missedIngredientsString ? JSON.parse(missedIngredientsString) : [];
   const usedIngredients = usedIngredientsString ? JSON.parse(usedIngredientsString) : [];
-  console.log("Missed Ingredients:", missedIngredients)
-  console.log("Used Ingredients:", usedIngredients)
-  console.log(id);
+ 
+
+  const handleSaveRecipe = async () => {
+    if(recipe){
+      try {
+        const response = await axios.post(`http://localhost:4243/recipes`, {
+          title: recipe.title,
+          image: recipe.image,
+          instructions: recipe.instructions,
+        });
+        if (response.status === 200) {
+          alert('Recipe saved successfully!'); // Display a success message
+        }
+      } catch (error) {
+        console.error('Error saving recipe:', error);
+      }
+    }
+   
+  };  
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -66,6 +82,9 @@ const RecipeDetails = () => {
 
       <h2 className="text-xl font-bold mb-2 text-green-800">Cooking Steps:</h2>
       <div className="text-black" dangerouslySetInnerHTML={{ __html: recipe.instructions }} />
+      <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick={handleSaveRecipe}>
+  Save Recipe
+</button>
       <div className="flex items-center"> {/* Changed 'align-middle' to 'items-center' */}
         <h2 className="text-black bg-slate-500 p-2 m-0 rounded-md mr-2">Missing Ingredients: </h2> {/* Added 'mr-2' for some spacing */}
         <ul className="list-none p-0 m-0"> {/* Added 'list-none', 'p-0', and 'm-0' for styling */}

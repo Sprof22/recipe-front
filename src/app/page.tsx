@@ -25,10 +25,10 @@ export interface Ingredient {
 }
 
 export interface SavedRecipe {
-  id: number;
-  title: string;
-  image: string;
-  instructions: string; // Assuming this property exists in your model
+  ID: number;
+  Title: string;
+  Image: string;
+  Instructions: string; // Assuming this property exists in your model
 }
 
 export default function Home() {
@@ -38,14 +38,13 @@ export default function Home() {
 
   const fetchSavedRecipes = async () => {
     try {
-      const response = await axios.get('http://localhost:4243/recipes'); // Adjust the URL as per your backend setup
-      console.log(response, "this is response")
-      setSavedRecipes(response.data.recipes); // Assuming the response has a 'recipes' property containing an array of saved recipes
+      const response = await axios.get('http://localhost:4243/recipes');
+      console.log(response.data); // Add this line to debug
+      setSavedRecipes(response.data.recipes);
     } catch (error) {
       console.error('Error fetching saved recipes:', error);
     }
   };
-
   useEffect(() => {
     fetchSavedRecipes();
   }, []);
@@ -61,6 +60,18 @@ export default function Home() {
       console.error('Error fetching recipes:', error);
     }
    
+  };
+
+  const handleDeleteRecipe = async (id: number) => {
+    try {
+      const response = await axios.delete(`http://localhost:4243/recipes/${id}`);
+      if (response.status === 200) {
+        // Update the saved recipes list after successful deletion
+        setSavedRecipes(savedRecipes.filter(recipe => recipe.ID !== id));
+      }
+    } catch (error) {
+      console.error('Error deleting recipe:', error);
+    }
   };
 
   return (
@@ -115,13 +126,17 @@ export default function Home() {
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4 text-black">Saved Recipes</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {savedRecipes.map((recipe) => (
-      <div key={recipe.id} className="border p-4">
-        <h3 className="text-xl font-bold mb-2">{recipe.title}</h3>
-        <img className="mb-2" src={recipe.image} alt={recipe.title} />
-      </div>
-    ))}
-  </div>
+          {savedRecipes.map((recipe) => (
+            <div key={recipe.ID} className="border p-4">
+              {/* <h6>{recipe.ID}</h6> */}
+             <h3 className="text-xl font-bold mb-2 text-black">{recipe.Title}</h3>
+              <img className="mb-2" src={recipe.Image} alt={recipe.Title} />
+              <button onClick={() => handleDeleteRecipe(recipe.ID)} className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
