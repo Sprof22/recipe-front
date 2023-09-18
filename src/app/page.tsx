@@ -28,7 +28,7 @@ export interface SavedRecipe {
   ID: number;
   Title: string;
   Image: string;
-  Instructions: string; // Assuming this property exists in your model
+  Instructions: string; 
 }
 
 export default function Home() {
@@ -39,7 +39,7 @@ export default function Home() {
   const fetchSavedRecipes = async () => {
     try {
       const response = await axios.get('http://localhost:4243/recipes');
-      console.log(response.data); // Add this line to debug
+      console.log(response.data); 
       setSavedRecipes(response.data.recipes);
     } catch (error) {
       console.error('Error fetching saved recipes:', error);
@@ -77,7 +77,7 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4 text-black">Recipe Finder</h1>
-      <div className="mb-4 flex">
+      {/* <div className="mb-4 flex">
         <button
           className="bg-blue-500 text-white py-2 px-4 mr-2 rounded hover:bg-blue-700"
           // onClick={handleSignup}
@@ -90,7 +90,7 @@ export default function Home() {
         >
           Login
         </button>
-      </div>
+      </div> */}
       <div className="mb-4 flex">
         <input
           type="text"
@@ -114,12 +114,7 @@ export default function Home() {
             <Link href={`/recipe/${recipe.id}?missedIngredients=${JSON.stringify(recipe.missedIngredients)}&usedIngredients=${JSON.stringify(recipe.usedIngredients)}`}>
               <button className="text-blue-500">View Details</button>
             </Link>
-            {/* <button
-              className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
-              onClick={() => handleSaveRecipe(recipe)}
-            >
-              Save
-            </button> */}
+      
           </div>
         ))}
       </div>

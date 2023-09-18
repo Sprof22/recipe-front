@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { usePathname, useSearchParams, useParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
 import axios from "axios";
 
 
@@ -21,7 +21,7 @@ interface MissedIngredient {
 }
 
 const RecipeDetails = () => {
-  const [recipe, setRecipe] = useState<Recipe | null>(null); // Initialize as null
+  const [recipe, setRecipe] = useState<Recipe | null>(null); 
   const params = useParams();
   const id = params.id;
   const searchParams = useSearchParams();
@@ -40,7 +40,7 @@ const RecipeDetails = () => {
           instructions: recipe.instructions,
         });
         if (response.status === 200) {
-          alert('Recipe saved successfully!'); // Display a success message
+          alert('Recipe saved successfully!'); 
         }
       } catch (error) {
         console.error('Error saving recipe:', error);
@@ -61,10 +61,10 @@ const RecipeDetails = () => {
     if (id) {
       fetchRecipe(); // Call the fetch function when the id is available
     }
-  }, [id]); // Add id as a dependency to the effect
+  }, [id]); 
 
   if (!recipe) {
-    return <div>Loading...</div>; // Render a loading state while waiting for the data
+    return <div>Loading...</div>; 
   }
   console.log(recipe.instructions, "this is the ins")
   return (
@@ -74,22 +74,18 @@ const RecipeDetails = () => {
       <img className="mb-2" src={recipe.image} alt={recipe.title} />
 
       <h2 className="text-xl font-bold mb-2 text-green-800">Ingredients:</h2>
-      {/* <ul> */}
-        {/* {recipe.missedIngredients.map(ingredient => (
-        <li key={ingredient.id}>{ingredient.name}</li>
-      ))} */}
-      {/* </ul> */}
+
 
       <h2 className="text-xl font-bold mb-2 text-green-800">Cooking Steps:</h2>
       <div className="text-black" dangerouslySetInnerHTML={{ __html: recipe.instructions }} />
       <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" onClick={handleSaveRecipe}>
   Save Recipe
 </button>
-      <div className="flex items-center"> {/* Changed 'align-middle' to 'items-center' */}
-        <h2 className="text-black bg-slate-500 p-2 m-0 rounded-md mr-2">Missing Ingredients: </h2> {/* Added 'mr-2' for some spacing */}
-        <ul className="list-none p-0 m-0"> {/* Added 'list-none', 'p-0', and 'm-0' for styling */}
+      <div className="flex items-center"> 
+        <h2 className="text-black bg-slate-500 p-2 m-0 rounded-md mr-2">Missing Ingredients: </h2> 
+        <ul className="list-none p-0 m-0"> 
           {missedIngredients.map((ingredient: any) => (
-            <li className="inline-block" key={ingredient.id}> {/* Added 'inline-block' */}
+            <li className="inline-block" key={ingredient.id}> 
               <button className="bg-red-500 p-2 m-2 rounded-md text-white">
                 {ingredient.name}
               </button>
@@ -97,11 +93,11 @@ const RecipeDetails = () => {
           ))}
         </ul>
       </div>
-      <div className="flex items-center"> {/* Changed 'align-middle' to 'items-center' */}
-        <h2 className="text-black bg-slate-500 p-2 m-0 rounded-md mr-2">Used Ingredients: </h2> {/* Added 'mr-2' for some spacing */}
-        <ul className="list-none p-0 m-0"> {/* Added 'list-none', 'p-0', and 'm-0' for styling */}
+      <div className="flex items-center"> 
+        <h2 className="text-black bg-slate-500 p-2 m-0 rounded-md mr-2">Used Ingredients: </h2> 
+        <ul className="list-none p-0 m-0"> 
           {usedIngredients.map((ingredient: any) => (
-            <li className="inline-block" key={ingredient.id}> {/* Added 'inline-block' */}
+            <li className="inline-block" key={ingredient.id}> 
               <button className="bg-green-500 p-2 m-2 rounded-md text-white">
                 {ingredient.name}
               </button>

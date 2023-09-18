@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { usePathname, useSearchParams, useParams } from "next/navigation";
+import {  useParams } from "next/navigation";
 import axios from "axios";
 
 
@@ -37,12 +37,12 @@ const RecipeDetails = () => {
     };
 
     if (id) {
-      fetchRecipe(); // Call the fetch function when the id is available
+      fetchRecipe(); 
     }
-  }, [id]); // Add id as a dependency to the effect
+  }, [id]); 
 
   if (!recipe) {
-    return <div>Loading...</div>; // Render a loading state while waiting for the data
+    return <div>Loading...</div>; 
   }
   console.log(recipe.instructions, "this is the ins")
   return (
@@ -52,11 +52,7 @@ const RecipeDetails = () => {
       <img className="mb-2" src={recipe.image} alt={recipe.title} />
 
       <h2 className="text-xl font-bold mb-2 text-green-800">Ingredients:</h2>
-      {/* <ul> */}
-        {/* {recipe.missedIngredients.map(ingredient => (
-        <li key={ingredient.id}>{ingredient.name}</li>
-      ))} */}
-      {/* </ul> */}
+
 
       <h2 className="text-xl font-bold mb-2 text-green-800">Cooking Steps:</h2>
       <div className="text-black" dangerouslySetInnerHTML={{ __html: recipe.instructions }} />
