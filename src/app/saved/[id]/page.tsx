@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {  useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import axios from "axios";
-
+import Link from "next/link";
 
 interface Recipe {
   id: number;
-  title: string;
-  image: string;
-  instructions: string;
+  Title: string;
+  Image: string;
+  Instructions: string;
   usedIngredientCount: number;
   missedIngredientCount: number;
   missedIngredients: MissedIngredient[];
@@ -25,38 +25,47 @@ const RecipeDetails = () => {
   const params = useParams();
   const id = params.id;
 
-
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?includeNutrition=false&apiKey=35cd120e3fd040a3aa3f63ab6f7a0fa3`);
-        setRecipe(response.data);
+        const response = await axios.get(`http://localhost:4243/recipes/${id}`);
+        console.log(response.data.recipe);
+        setRecipe(response.data.recipe);
       } catch (error) {
-        console.error('Error fetching recipe:', error);
+        console.error("Error fetching recipe:", error);
       }
     };
 
     if (id) {
-      fetchRecipe(); 
+      fetchRecipe();
     }
-  }, [id]); 
+  }, [id]);
 
   if (!recipe) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
-  console.log(recipe.instructions, "this is the ins")
+  console.log(recipe, "this is the ins");
   return (
-    <div className="container mx-auto px-4 py-8">
-      
-      <h1 className="text-3xl font-bold mb-4 text-black">{recipe.title}</h1>
-      <img className="mb-2" src={recipe.image} alt={recipe.title} />
+    <div>
+      <Link href={"/"}>
+        <button className="bg-slate-500 text-white py-2 px-4 mt-3 rounded hover:bg-blue-700">
+          Go to Homepage
+        </button>
+      </Link>
+      <div className="container mx-auto px-4 py-4">
+        <h1 className="text-3xl font-bold mb-4 text-black">{recipe.Title}</h1>
+        <img className="mb-2" src={recipe.Image} alt={recipe.Title} />
 
-      <h2 className="text-xl font-bold mb-2 text-green-800">Ingredients:</h2>
+        <h2 className="text-xl font-bold mb-2 text-green-800">Ingredients:</h2>
 
-
-      <h2 className="text-xl font-bold mb-2 text-green-800">Cooking Steps:</h2>
-      <div className="text-black" dangerouslySetInnerHTML={{ __html: recipe.instructions }} />
-
+        <h2 className="text-xl font-bold mb-2 text-green-800">
+          Cooking Steps:
+        </h2>
+        <div
+          className="text-black"
+          dangerouslySetInnerHTML={{ __html: recipe.Instructions }}
+        />
+      </div>
     </div>
   );
 };

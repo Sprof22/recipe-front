@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useParams } from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
 
 
 interface Recipe {
@@ -68,7 +69,13 @@ const RecipeDetails = () => {
   }
   console.log(recipe.instructions, "this is the ins")
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div>
+      <Link href={"/"}>
+        <button className="bg-slate-500 text-white py-2 px-4 mt-3 rounded hover:bg-blue-700">
+          Go to Homepage
+        </button>
+      </Link>
+      <div className="container mx-auto px-4 py-8">
       
       <h1 className="text-3xl font-bold mb-4 text-black">{recipe.title}</h1>
       <img className="mb-2" src={recipe.image} alt={recipe.title} />
@@ -106,6 +113,8 @@ const RecipeDetails = () => {
         </ul>
       </div>
     </div>
+    </div>
+    
   );
 };
 
