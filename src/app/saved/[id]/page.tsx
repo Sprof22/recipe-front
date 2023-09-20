@@ -23,7 +23,7 @@ interface MissedIngredient {
 const RecipeDetails = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null); // Initialize as null
   const params = useParams();
-  const id = params.id;
+  const id = params?.id;
 
   useEffect(() => {
     const fetchRecipe = async () => {
